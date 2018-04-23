@@ -9,100 +9,129 @@ const ENEMY_STEP = 100;
 
 // Enemies our player must avoid
 class Enemy {
-  constructor(x, y, speed=1) {
-  this.x = x;
-  this.y = y;
-  this.speed = speed;
+    constructor(x, y, speed) {
+        this.x = x;
+        this.y = y;
+        this.speed = speed;
 
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
-    this.sprite = 'images/enemy-bug.png';
+        this.sprite = 'images/enemy-bug.png';
   };
 
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
-  update(dt) {
+    update(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-    this.x = this.x + (dt * this.speed * ENEMY_STEP);
-    if(this.x > 450) {
-      this.x = 0;
-      (this.speed < 3) ? (this.speed +=1) : (this.speed = 1)
+        this.x = this.x + (dt * this.speed * ENEMY_STEP);
+        if(this.x > 450) {
+            this.x = 0;
+            (this.speed < 3) ? (this.speed +=1) : (this.speed = 1)
+        };
     };
-  };
+
+    isCollision(){
+        if (Math.abs(this.x - player.x) < 50 && Math.abs(this.y - player.y) < 20 ){
+            return true;
+        } else {
+              return false;
+          };
+    };
 
 // Draw the enemy on the screen, required method for game
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
   };
 };
+
+
+function checkCollisions() {
+    allEnemies.forEach(function(enemy) {
+        if(enemy.isCollision()) {
+              if(player.numberOflives > 1){
+                  player.numberOflives -= 1;
+                  player.x = 200;
+                  player.y = 410;
+              } else {
+                gameOver();
+              };
+        };
+    });
+}
+
+function gameOver () {
+  console.log("Game over");
+  //to do
+}
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
 class Player {
-  constructor(x, y, isAlive=true){
-    this.x = x;
-    this.y = y;
-    this.isAlive = isAlive;
-    this.sprite = 'images/char-boy.png';
+    constructor(x, y, numberOflives=3, speed=1){
+        this.x = x;
+        this.y = y;
+        this.numberOflives = numberOflives;
+        this.speed = speed;
+        this.sprite = 'images/char-boy.png';
   }
 
-  moveLeft () {
-    this.x -= X_STEP;
-    if (this.x < LEFT_BORDER) {
-      this.x = 400;
+    moveLeft () {
+        this.x -= X_STEP;
+        if (this.x < LEFT_BORDER) {
+            this.x = 400;
+        };
     };
-  };
 
-  moveRight () {
-    this.x += X_STEP;
-    if (this.x > RIGHT_BORDER) {
-      this.x = 0;
+    moveRight () {
+        this.x += X_STEP;
+        if (this.x > RIGHT_BORDER) {
+            this.x = 0;
+        };
     };
-  };
 
-  moveUp () {
-    this.y -= Y_STEP;
-    if (this.y < TOP_BORDER) {
-      this.y = 410;
+    moveUp () {
+        this.y -= Y_STEP;
+        if (this.y < TOP_BORDER) {
+            this.y = 410;
+        };
     };
-  };
 
-  moveDown () {
-    this.y += Y_STEP;
-    if (this.y > BOTTOM_BORDER) {
-      this.y = -40;
+    moveDown () {
+        this.y += Y_STEP;
+        if (this.y > BOTTOM_BORDER) {
+            this.y = -40;
+        };
     };
-  };
 
-  update(dt) {
+  update() {
 
   };
 
   render() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+      ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
   };
 
   handleInput(direction) {
-    switch(direction) {
-      case "left":
-        this.moveLeft();
-        break;
-      case "right":
-        this.moveRight();
-        break;
-      case "up":
-        this.moveUp();
-        break;
-      case "down":
-        this.moveDown();
-        break;
-    };
+      switch(direction) {
+          case "left":
+              this.moveLeft();
+              break;
+          case "right":
+              this.moveRight();
+              break;
+          case "up":
+              this.moveUp();
+              break;
+          case "down":
+              this.moveDown();
+              break;
+      };
 
   };
 }
