@@ -1,9 +1,9 @@
 const X_STEP = 100;
 const Y_STEP = 90;
 const LEFT_BORDER = 0;
-const RIGHT_BORDER = 450;
-const TOP_BORDER = -50;
-const BOTTOM_BORDER = 490;
+const RIGHT_BORDER = 420;
+const TOP_BORDER = 40;
+const BOTTOM_BORDER = 410;
 const ENEMY_STEP = 100;
 
 
@@ -81,20 +81,21 @@ class Player {
     moveLeft () {
         this.x -= X_STEP;
         if (this.x < LEFT_BORDER) {
-            this.x = 400;
+            this.x = LEFT_BORDER;
         };
     };
 
     moveRight () {
         this.x += X_STEP;
         if (this.x > RIGHT_BORDER) {
-            this.x = 0;
+            this.x = RIGHT_BORDER;
         };
     };
 
     moveUp () {
         this.y -= Y_STEP;
         if (this.y < TOP_BORDER) {
+            console.log("you win in this round");
             this.y = 410;
         };
     };
@@ -102,7 +103,7 @@ class Player {
     moveDown () {
         this.y += Y_STEP;
         if (this.y > BOTTOM_BORDER) {
-            this.y = -40;
+            this.y = BOTTOM_BORDER;
         };
     };
 
