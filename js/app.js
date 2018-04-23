@@ -38,6 +38,7 @@ class Enemy {
 
     isCollision(){
         if (Math.abs(this.x - player.x) < 50 && Math.abs(this.y - player.y) < 20 ){
+            console.log("collision");
             return true;
         } else {
               return false;
@@ -53,14 +54,10 @@ class Enemy {
 
 function checkCollisions() {
     allEnemies.forEach(function(enemy) {
-        if(enemy.isCollision()) {
-              if(player.numberOflives > 1){
-                  player.numberOflives -= 1;
-                  player.x = 200;
-                  player.y = 410;
-              } else {
-                gameOver();
-              };
+        if(enemy.isCollision()){
+              console.log("here we are");
+              player.decreaseNumberOFLives();
+              player.reset();
         };
     });
 }
@@ -107,6 +104,25 @@ class Player {
         if (this.y > BOTTOM_BORDER) {
             this.y = -40;
         };
+    };
+
+    reset () {
+        this.x = 200;
+        this.y = 410;
+        console.log("reset")
+    };
+
+    isDead(){
+      return(this.numberOflives < 1)
+    };
+
+    decreaseNumberOFLives() {
+      this.numberOflives -= 1;
+      console.log(`number of lives is: ${this.numberOflives}`);
+      if(player.isDead()) {
+        gameOver();
+      }
+
     };
 
   update() {
