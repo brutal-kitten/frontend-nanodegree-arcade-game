@@ -5,6 +5,12 @@ const RIGHT_BORDER = 420;
 const TOP_BORDER = 40;
 const BOTTOM_BORDER = 410;
 const ENEMY_STEP = 100;
+const startBoy = document.querySelector('.startBoy');
+const startGirl = document.querySelector('.startGirl');
+const modal = document.getElementById('startModal');
+let boy = 'images/char-boy.png';
+let girl = 'images/char-pink-girl.png';
+
 
 
 // Enemies our player must avoid
@@ -36,7 +42,7 @@ class Enemy {
         };
     };
 
-    isCollision(){
+    isCollision() {
         if (Math.abs(this.x - player.x) < 50 && Math.abs(this.y - player.y) < 20 ){
             console.log("collision");
             return true;
@@ -58,14 +64,15 @@ function checkCollisions() {
               console.log("here we are");
               player.decreaseNumberOFLives();
               player.reset();
+
         };
     });
-}
+};
 
 function gameOver () {
   console.log("Game over");
   //to do
-}
+};
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
@@ -126,6 +133,10 @@ class Player {
 
     };
 
+    setTheHero(hero) {
+        this.sprite = hero;
+    };
+
   update() {
 
   };
@@ -151,17 +162,17 @@ class Player {
       };
 
   };
-}
+};
 
+  // Now instantiate your objects.
+  // Place all enemy objects in an array called allEnemies
+  // Place the player object in a variable called player
 
-// Now instantiate your objects.
-// Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
-var enemy1 = new Enemy(0, 140, 1);
-var enemy2 = new Enemy(0, 50, 2);
-var enemy3 = new Enemy(0, 230, 3);
-var allEnemies = [enemy1, enemy2, enemy3];
-var player = new Player(200, 410);
+let enemy1 = new Enemy(0, 140, 1);
+let enemy2 = new Enemy(0, 50, 2);
+let enemy3 = new Enemy(0, 230, 3);
+let allEnemies = [enemy1, enemy2, enemy3];
+let player = new Player(200, 410);
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
@@ -174,4 +185,15 @@ document.addEventListener('keyup', function(e) {
     };
 
     player.handleInput(allowedKeys[e.keyCode]);
+});
+
+
+startBoy.addEventListener("click", function(evt) {
+    player.setTheHero(boy);
+    modal.style.display = "none";
+});
+
+startGirl.addEventListener("click", function(evt) {
+    player.setTheHero(girl);
+    modal.style.display = "none";
 });
