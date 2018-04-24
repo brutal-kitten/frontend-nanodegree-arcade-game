@@ -23,13 +23,26 @@ body {
   height: 100px;
 }
 
-.grid-container{
+.grid-container {
   display: inline-grid;
   grid-template-columns: 50% 50%;
 }
 
+.score-panel {
+  width: 505px;
+  font-size: 18px;
+}
+
+.box {
+  width: 100%;
+}
+
 h2 {
   margin-bottom: 0;
+}
+
+h1 {
+  color: green;
 }
 
 .icon:hover {

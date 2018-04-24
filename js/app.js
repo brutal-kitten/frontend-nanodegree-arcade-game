@@ -8,6 +8,8 @@ const ENEMY_STEP = 100;
 const startBoy = document.querySelector('.startBoy');
 const startGirl = document.querySelector('.startGirl');
 const modal = document.getElementById('startModal');
+const numberOfLives = document.querySelector('.lives');
+const score = document.querySelector('.score');
 let boy = 'images/char-boy.png';
 let girl = 'images/char-pink-girl.png';
 
