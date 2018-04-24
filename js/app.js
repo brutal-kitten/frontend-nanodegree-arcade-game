@@ -8,6 +8,8 @@ const ENEMY_STEP = 100;
 const startBoy = document.querySelector('.startBoy');
 const startGirl = document.querySelector('.startGirl');
 const modal = document.getElementById('startModal');
+const lastModal = document.getElementById('lastModal');
+const modalMessage = document.getElementById('modal-message');
 const numberOfLives = document.querySelector('.lives');
 const coins = document.querySelector('.score');
 let boy = 'images/char-boy.png';
@@ -72,8 +74,16 @@ function checkCollisions() {
 };
 
 function gameOver () {
-  console.log("Game over");
-  //to do
+    endOfTheGame ("Game over");
+};
+
+function youWon () {
+    endOfTheGame ("You won!");
+};
+
+function endOfTheGame (message) {
+    modalMessage.textContent = message;
+    lastModal.style.display = "block";
 };
 // Now write your own player class
 // This class requires an update(), render() and
@@ -143,6 +153,7 @@ class Player {
       var newScore = this.score;
       console.log(`new score is `,  newScore);
       updateScore(newScore);
+      checkScore(newScore);
     };
 
     setTheHero(hero) {
@@ -185,10 +196,17 @@ function updateScore(score) {
     coins.textContent = score;
 };
 
+function checkScore (score) {
+    if (score > 149) {
+        youWon();
+    };
+};
+
 function startTheGame() {
     udateNumbersOfLives(3);
     updateScore(0);
 };
+
 
   // Now instantiate your objects.
   // Place all enemy objects in an array called allEnemies
