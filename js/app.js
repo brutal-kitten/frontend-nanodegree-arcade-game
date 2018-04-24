@@ -9,7 +9,7 @@ const startBoy = document.querySelector('.startBoy');
 const startGirl = document.querySelector('.startGirl');
 const modal = document.getElementById('startModal');
 const numberOfLives = document.querySelector('.lives');
-const score = document.querySelector('.score');
+const coins = document.querySelector('.score');
 let boy = 'images/char-boy.png';
 let girl = 'images/char-pink-girl.png';
 
@@ -105,7 +105,7 @@ class Player {
     moveUp () {
         this.y -= Y_STEP;
         if (this.y < TOP_BORDER) {
-            increaseScore();
+            player.increaseScore();
             console.log("you win in this round");
             this.y = 410;
         };
@@ -130,6 +130,8 @@ class Player {
 
     decreaseNumberOFLives() {
       this.numberOflives -= 1;
+      var number = this.numberOflives;
+      udateNumbersOfLives(number);
       console.log(`number of lives is: ${this.numberOflives}`);
       if(player.isDead()) {
         gameOver();
@@ -137,8 +139,11 @@ class Player {
     };
 
     increaseScore () {
-      this.score +=50;
-    }
+      this.score += 50;
+      var newScore = this.score;
+      console.log(`new score is `,  newScore);
+      updateScore(newScore);
+    };
 
     setTheHero(hero) {
         this.sprite = hero;
@@ -171,6 +176,20 @@ class Player {
   };
 };
 
+function udateNumbersOfLives(number) {
+    numberOfLives.textContent = number;
+};
+
+function updateScore(score) {
+    console.log(`in the score updator`, score);
+    coins.textContent = score;
+};
+
+function startTheGame() {
+    udateNumbersOfLives(3);
+    updateScore(0);
+};
+
   // Now instantiate your objects.
   // Place all enemy objects in an array called allEnemies
   // Place the player object in a variable called player
@@ -180,6 +199,7 @@ let enemy2 = new Enemy(0, 50, 2);
 let enemy3 = new Enemy(0, 230, 3);
 let allEnemies = [enemy1, enemy2, enemy3];
 let player = new Player(200, 410);
+
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
@@ -197,10 +217,12 @@ document.addEventListener('keyup', function(e) {
 
 startBoy.addEventListener("click", function(evt) {
     player.setTheHero(boy);
+    startTheGame();
     modal.style.display = "none";
 });
 
 startGirl.addEventListener("click", function(evt) {
     player.setTheHero(girl);
+    startTheGame();
     modal.style.display = "none";
 });
