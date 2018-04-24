@@ -77,12 +77,13 @@ function gameOver () {
 // This class requires an update(), render() and
 // a handleInput() method.
 class Player {
-    constructor(x, y, numberOflives=3, speed=1){
+    constructor(x, y, numberOflives=3, speed=1, score=0){
         this.x = x;
         this.y = y;
         this.numberOflives = numberOflives;
         this.speed = speed;
         this.sprite = 'images/char-boy.png';
+        this.score = score;
   }
 
     moveLeft () {
@@ -102,6 +103,7 @@ class Player {
     moveUp () {
         this.y -= Y_STEP;
         if (this.y < TOP_BORDER) {
+            increaseScore();
             console.log("you win in this round");
             this.y = 410;
         };
@@ -129,9 +131,12 @@ class Player {
       console.log(`number of lives is: ${this.numberOflives}`);
       if(player.isDead()) {
         gameOver();
-      }
-
+      };
     };
+
+    increaseScore () {
+      this.score +=50;
+    }
 
     setTheHero(hero) {
         this.sprite = hero;
