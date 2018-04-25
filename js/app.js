@@ -12,6 +12,7 @@ const lastModal = document.getElementById('lastModal');
 const modalMessage = document.getElementById('modal-message');
 const numberOfLives = document.querySelector('.lives');
 const coins = document.querySelector('.score');
+const reStart = document.getElementById('reStart');
 let boy = 'images/char-boy.png';
 let girl = 'images/char-pink-girl.png';
 
@@ -47,7 +48,7 @@ class Enemy {
     };
 
     isCollision() {
-        if (Math.abs(this.x - player.x) < 50 && Math.abs(this.y - player.y) < 20 ){
+        if (Math.abs(this.x - player.x) < 50 && Math.abs(this.y - player.y) < 10 ){
             console.log("collision");
             return true;
         } else {
@@ -134,6 +135,11 @@ class Player {
         console.log("reset")
     };
 
+    reLoad() {
+      this.numberOflives = 3;
+      this.score = 0;
+    };
+
     isDead(){
       return(this.numberOflives < 1)
     };
@@ -161,7 +167,8 @@ class Player {
     };
 
   update() {
-
+      this.x = this.x * this.speed;
+      this.x = this.x * this.speed;
   };
 
   render() {
@@ -243,4 +250,10 @@ startGirl.addEventListener("click", function(evt) {
     player.setTheHero(girl);
     startTheGame();
     modal.style.display = "none";
+});
+
+reStart.addEventListener("click", function(evt) {
+    lastModal.style.display = "none";
+    player.reLoad();
+    modal.style.display = "block";
 });
