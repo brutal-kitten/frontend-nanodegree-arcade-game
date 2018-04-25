@@ -15,24 +15,30 @@ const coins = document.querySelector('.score');
 const reStart = document.getElementById('reStart');
 let boy = 'images/char-boy.png';
 let girl = 'images/char-pink-girl.png';
+let bug = 'images/enemy-bug.png';
 
 
+
+
+class GameObject {
+    constructor (x, y, sprite, speed) {
+      this.x = x;
+      this.y = y;
+      this.speed = speed;
+      this.sprite = sprite;
+    };
+
+    render() {
+      ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    };
+
+};
 
 // Enemies our player must avoid
-class Enemy {
-    constructor(x, y, speed) {
-        this.x = x;
-        this.y = y;
-        this.speed = speed;
-
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
-
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
-        this.sprite = 'images/enemy-bug.png';
+class Enemy extends GameObject {
+    constructor(x, y, sprite, speed) {
+        super(x, y, sprite, speed);
   };
-
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
@@ -56,10 +62,6 @@ class Enemy {
         };
     };
 
-// Draw the enemy on the screen, required method for game
-  render() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-  };
 };
 
 
@@ -89,13 +91,10 @@ function endOfTheGame (message) {
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
-class Player {
-    constructor(x, y, numberOflives=3, speed=1, score=0){
-        this.x = x;
-        this.y = y;
+class Player extends GameObject {
+    constructor(x, y, sprite, speed = 1, numberOflives = 3, score = 0){
+        super(x, y, sprite, speed);
         this.numberOflives = numberOflives;
-        this.speed = speed;
-        this.sprite = 'images/char-boy.png';
         this.score = score;
   }
 
@@ -171,10 +170,6 @@ class Player {
       this.x = this.x * this.speed;
   };
 
-  render() {
-      ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-  };
-
   handleInput(direction) {
       switch(direction) {
           case "left":
@@ -219,11 +214,11 @@ function startTheGame() {
   // Place all enemy objects in an array called allEnemies
   // Place the player object in a variable called player
 
-let enemy1 = new Enemy(0, 140, 1);
-let enemy2 = new Enemy(0, 50, 2);
-let enemy3 = new Enemy(0, 230, 3);
+let enemy1 = new Enemy(0, 140, bug, 1);
+let enemy2 = new Enemy(0, 50, bug, 2);
+let enemy3 = new Enemy(0, 230, bug, 3);
 let allEnemies = [enemy1, enemy2, enemy3];
-let player = new Player(200, 410);
+let player = new Player(200, 410, boy);
 
 
 // This listens for key presses and sends the keys to your
