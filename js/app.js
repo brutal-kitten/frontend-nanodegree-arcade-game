@@ -51,8 +51,8 @@ class Enemy {
             console.log("collision");
             return true;
         } else {
-              return false;
-          };
+            return false;
+        };
     };
 
 // Draw the enemy on the screen, required method for game
