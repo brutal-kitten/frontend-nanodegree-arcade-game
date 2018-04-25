@@ -3,11 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Arcade Game</title>
+    <link rel="stylesheet prefetch" href="https://fonts.googleapis.com/css?family=Coda">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <!-- Modal window that appears right after loading the page-->
   <div id="startModal" class="modal">
     <div class="modal-content">
+      <!-- Information about game rules-->
       <div class="rules">
         <h2>Your goal is to cross the road and get to the water!</h2>
         <li>At start You have 3 lives and 0 points</li>
@@ -18,6 +21,7 @@
         <h2>Good luck!</h2>
       </div>
       <h2>Select your hero!</h2>
+      <!-- Two options to select a player -->
       <div class="hero grid-container" >
         <div class="icon startBoy">
           <img src="images/char-boy.png" alt="boy">
@@ -30,6 +34,7 @@
   </div>
   <div class="box">
     <h1>Arcade Game</h1>
+    <!-- Score panel-->
     <section class="score-panel grid-container">
       <div class="box">
         <span class="lives">0</span>
@@ -40,6 +45,7 @@
       </div>
     </section>
   </div>
+  <!-- Modal window that appears at the end of the game-->
   <div id="lastModal" class="modal">
     <div class="modal-content">
       <p id="modal-message"></p>

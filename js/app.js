@@ -18,8 +18,7 @@ let girl = 'images/char-pink-girl.png';
 let bug = 'images/enemy-bug.png';
 
 
-
-
+// Superclass that represents every game object
 class GameObject {
     constructor (x, y, sprite, speed) {
       this.x = x;
@@ -28,10 +27,12 @@ class GameObject {
       this.sprite = sprite;
     };
 
+    //draw the object
     render() {
       ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     };
 
+    //check the collision with Player, returns boolean
     isCollision() {
         if (Math.abs(this.x - player.x) < 50 && Math.abs(this.y - player.y) < 10 ){
             console.log("collision");
@@ -42,17 +43,16 @@ class GameObject {
     };
 };
 
-// Enemies our player must avoid
+// game object - Enemy, inherit from the GameObject
 class Enemy extends GameObject {
     constructor(x, y, sprite, speed) {
         super(x, y, sprite, speed);
   };
 
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
+    // Update the enemy's position, required method for game
+    // Parameter: dt, a time delta between ticks
     update(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
+    // dt parameter will ensure the game runs at the same speed for
     // all computers.
         this.x = this.x + (dt * this.speed * ENEMY_STEP);
         if(this.x > 450) {
@@ -63,9 +63,7 @@ class Enemy extends GameObject {
 
 };
 
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
+// game object - Player, the hero oh the game, inherit from the GameObject
 class Player extends GameObject {
     constructor(x, y, sprite, speed = 1, numberOflives = 3, score = 0){
         super(x, y, sprite, speed);
@@ -103,31 +101,40 @@ class Player extends GameObject {
         };
     };
 
+    //reset player's position to the start position
     reset() {
         this.x = 200;
         this.y = 410;
         console.log("reset")
     };
 
+    // set player's numberOfLives and score to the initial value
     reLoad() {
         this.numberOflives = 3;
         this.score = 0;
     };
 
+    //check the player's number of lives
     isDead() {
         return (this.numberOflives < 1);
     };
 
+    // decrease player's numberOfLives by one,
+    // update the number of lives on score panel
+    // check whether the player is alive, if not - invoke the gameOver function
     decreaseNumberOFLives() {
         this.numberOflives -= 1;
         var number = this.numberOflives;
         game.udateNumbersOfLives(number);
         console.log(`number of lives is: ${this.numberOflives}`);
         if (player.isDead()) {
-            gameOver();
+            game.gameOver();
         };
     };
 
+    // increase player's score by 50
+    // update the score on score panel
+    // invoke finction that check the score to know if the player won
     increaseScore () {
         this.score += 50;
         var newScore = this.score;
@@ -136,15 +143,18 @@ class Player extends GameObject {
         game.checkScore(newScore);
     };
 
+    //set the  player's sprite
     setTheHero(hero) {
         this.sprite = hero;
     };
 
+    //update with speed
     update() {
         this.x = this.x * this.speed;
         this.x = this.x * this.speed;
       };
 
+    //handle the respond to the key
     handleInput(direction) {
         switch(direction) {
             case "left":
@@ -163,19 +173,23 @@ class Player extends GameObject {
     };
 };
 
-
+//check collision for every enemy in  array
 function checkCollisions() {
     allEnemies.forEach(function(enemy) {
         if(enemy.isCollision()){
+              //if collision happens decrease number of player's lives by one
               console.log("here we are");
               player.decreaseNumberOFLives();
+              //reset player to the initial position
               player.reset();
         };
     });
 };
 
-class Game {
 
+
+class Game {
+  
     gameOver() {
         this.endOfTheGame ("Game over");
     };
@@ -184,26 +198,31 @@ class Game {
         this.endOfTheGame ("You won!");
     };
 
-    endOfTheGame (message) {
+    //show modal window with final message
+    endOfTheGame(message) {
         modalMessage.textContent = message;
         lastModal.style.display = "block";
     };
 
+    // update number of lives on the score panel
     udateNumbersOfLives(number) {
         numberOfLives.textContent = number;
     };
 
+    //update score on the score panel
     updateScore(score) {
         console.log(`in the score updator`, score);
         coins.textContent = score;
     };
 
+    //check whether the player has alredy won
     checkScore (score) {
         if (score > 149) {
             this.youWon();
         };
     };
 
+    //update score panel
     startTheGame() {
         this.udateNumbersOfLives(3);
         this.updateScore(0);
