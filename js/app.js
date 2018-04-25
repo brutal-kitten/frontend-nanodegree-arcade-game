@@ -32,6 +32,14 @@ class GameObject {
       ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     };
 
+    isCollision() {
+        if (Math.abs(this.x - player.x) < 50 && Math.abs(this.y - player.y) < 10 ){
+            console.log("collision");
+            return true;
+        } else {
+            return false;
+        };
+    };
 };
 
 // Enemies our player must avoid
@@ -53,15 +61,106 @@ class Enemy extends GameObject {
         };
     };
 
-    isCollision() {
-        if (Math.abs(this.x - player.x) < 50 && Math.abs(this.y - player.y) < 10 ){
-            console.log("collision");
-            return true;
-        } else {
-            return false;
+};
+
+// Now write your own player class
+// This class requires an update(), render() and
+// a handleInput() method.
+class Player extends GameObject {
+    constructor(x, y, sprite, speed = 1, numberOflives = 3, score = 0){
+        super(x, y, sprite, speed);
+        this.numberOflives = numberOflives;
+        this.score = score;
+  };
+
+    moveLeft() {
+        this.x -= X_STEP;
+        if (this.x < LEFT_BORDER) {
+            this.x = LEFT_BORDER;
         };
     };
 
+    moveRight() {
+        this.x += X_STEP;
+        if (this.x > RIGHT_BORDER) {
+            this.x = RIGHT_BORDER;
+        };
+    };
+
+    moveUp() {
+        this.y -= Y_STEP;
+        if (this.y < TOP_BORDER) {
+            player.increaseScore();
+            console.log("you win in this round");
+            this.y = 410;
+        };
+    };
+
+    moveDown() {
+        this.y += Y_STEP;
+        if (this.y > BOTTOM_BORDER) {
+            this.y = BOTTOM_BORDER;
+        };
+    };
+
+    reset() {
+        this.x = 200;
+        this.y = 410;
+        console.log("reset")
+    };
+
+    reLoad() {
+        this.numberOflives = 3;
+        this.score = 0;
+    };
+
+    isDead() {
+        return (this.numberOflives < 1);
+    };
+
+    decreaseNumberOFLives() {
+        this.numberOflives -= 1;
+        var number = this.numberOflives;
+        udateNumbersOfLives(number);
+        console.log(`number of lives is: ${this.numberOflives}`);
+        if (player.isDead()) {
+            gameOver();
+        };
+    };
+
+    increaseScore () {
+        this.score += 50;
+        var newScore = this.score;
+        console.log(`new score is `,  newScore);
+        updateScore(newScore);
+        checkScore(newScore);
+    };
+
+    setTheHero(hero) {
+        this.sprite = hero;
+    };
+
+    update() {
+        this.x = this.x * this.speed;
+        this.x = this.x * this.speed;
+      };
+
+    handleInput(direction) {
+        switch(direction) {
+            case "left":
+                this.moveLeft();
+                break;
+            case "right":
+                this.moveRight();
+                break;
+            case "up":
+                this.moveUp();
+                break;
+            case "down":
+                this.moveDown();
+                break;
+        };
+    };
 };
 
 
@@ -71,10 +170,10 @@ function checkCollisions() {
               console.log("here we are");
               player.decreaseNumberOFLives();
               player.reset();
-
         };
     });
 };
+
 
 function gameOver () {
     endOfTheGame ("Game over");
@@ -88,107 +187,6 @@ function endOfTheGame (message) {
     modalMessage.textContent = message;
     lastModal.style.display = "block";
 };
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
-class Player extends GameObject {
-    constructor(x, y, sprite, speed = 1, numberOflives = 3, score = 0){
-        super(x, y, sprite, speed);
-        this.numberOflives = numberOflives;
-        this.score = score;
-  }
-
-    moveLeft () {
-        this.x -= X_STEP;
-        if (this.x < LEFT_BORDER) {
-            this.x = LEFT_BORDER;
-        };
-    };
-
-    moveRight () {
-        this.x += X_STEP;
-        if (this.x > RIGHT_BORDER) {
-            this.x = RIGHT_BORDER;
-        };
-    };
-
-    moveUp () {
-        this.y -= Y_STEP;
-        if (this.y < TOP_BORDER) {
-            player.increaseScore();
-            console.log("you win in this round");
-            this.y = 410;
-        };
-    };
-
-    moveDown () {
-        this.y += Y_STEP;
-        if (this.y > BOTTOM_BORDER) {
-            this.y = BOTTOM_BORDER;
-        };
-    };
-
-    reset () {
-        this.x = 200;
-        this.y = 410;
-        console.log("reset")
-    };
-
-    reLoad() {
-      this.numberOflives = 3;
-      this.score = 0;
-    };
-
-    isDead(){
-      return(this.numberOflives < 1)
-    };
-
-    decreaseNumberOFLives() {
-      this.numberOflives -= 1;
-      var number = this.numberOflives;
-      udateNumbersOfLives(number);
-      console.log(`number of lives is: ${this.numberOflives}`);
-      if(player.isDead()) {
-        gameOver();
-      };
-    };
-
-    increaseScore () {
-      this.score += 50;
-      var newScore = this.score;
-      console.log(`new score is `,  newScore);
-      updateScore(newScore);
-      checkScore(newScore);
-    };
-
-    setTheHero(hero) {
-        this.sprite = hero;
-    };
-
-  update() {
-      this.x = this.x * this.speed;
-      this.x = this.x * this.speed;
-  };
-
-  handleInput(direction) {
-      switch(direction) {
-          case "left":
-              this.moveLeft();
-              break;
-          case "right":
-              this.moveRight();
-              break;
-          case "up":
-              this.moveUp();
-              break;
-          case "down":
-              this.moveDown();
-              break;
-      };
-
-  };
-};
-
 function udateNumbersOfLives(number) {
     numberOfLives.textContent = number;
 };
