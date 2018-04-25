@@ -121,7 +121,7 @@ class Player extends GameObject {
     decreaseNumberOFLives() {
         this.numberOflives -= 1;
         var number = this.numberOflives;
-        udateNumbersOfLives(number);
+        game.udateNumbersOfLives(number);
         console.log(`number of lives is: ${this.numberOflives}`);
         if (player.isDead()) {
             gameOver();
@@ -132,8 +132,8 @@ class Player extends GameObject {
         this.score += 50;
         var newScore = this.score;
         console.log(`new score is `,  newScore);
-        updateScore(newScore);
-        checkScore(newScore);
+        game.updateScore(newScore);
+        game.checkScore(newScore);
     };
 
     setTheHero(hero) {
@@ -174,44 +174,47 @@ function checkCollisions() {
     });
 };
 
+class Game {
 
-function gameOver () {
-    endOfTheGame ("Game over");
-};
-
-function youWon () {
-    endOfTheGame ("You won!");
-};
-
-function endOfTheGame (message) {
-    modalMessage.textContent = message;
-    lastModal.style.display = "block";
-};
-function udateNumbersOfLives(number) {
-    numberOfLives.textContent = number;
-};
-
-function updateScore(score) {
-    console.log(`in the score updator`, score);
-    coins.textContent = score;
-};
-
-function checkScore (score) {
-    if (score > 149) {
-        youWon();
+    gameOver() {
+        this.endOfTheGame ("Game over");
     };
-};
 
-function startTheGame() {
-    udateNumbersOfLives(3);
-    updateScore(0);
+    youWon() {
+        this.endOfTheGame ("You won!");
+    };
+
+    endOfTheGame (message) {
+        modalMessage.textContent = message;
+        lastModal.style.display = "block";
+    };
+
+    udateNumbersOfLives(number) {
+        numberOfLives.textContent = number;
+    };
+
+    updateScore(score) {
+        console.log(`in the score updator`, score);
+        coins.textContent = score;
+    };
+
+    checkScore (score) {
+        if (score > 149) {
+            this.youWon();
+        };
+    };
+
+    startTheGame() {
+        this.udateNumbersOfLives(3);
+        this.updateScore(0);
+    };
 };
 
 
   // Now instantiate your objects.
   // Place all enemy objects in an array called allEnemies
   // Place the player object in a variable called player
-
+let game = new Game ();
 let enemy1 = new Enemy(0, 140, bug, 1);
 let enemy2 = new Enemy(0, 50, bug, 2);
 let enemy3 = new Enemy(0, 230, bug, 3);
@@ -235,13 +238,13 @@ document.addEventListener('keyup', function(e) {
 
 startBoy.addEventListener("click", function(evt) {
     player.setTheHero(boy);
-    startTheGame();
+    game.startTheGame();
     modal.style.display = "none";
 });
 
 startGirl.addEventListener("click", function(evt) {
     player.setTheHero(girl);
-    startTheGame();
+    game.startTheGame();
     modal.style.display = "none";
 });
 
