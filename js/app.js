@@ -1,10 +1,10 @@
-const X_STEP = 100;
-const Y_STEP = 90;
+const X_STEP = 101;
+const Y_STEP = 83;
 const LEFT_BORDER = 0;
 const RIGHT_BORDER = 420;
 const TOP_BORDER = 40;
 const BOTTOM_BORDER = 410;
-const ENEMY_STEP = 100;
+const ENEMY_STEP = 101;
 const startBoy = document.querySelector('.startBoy');
 const startGirl = document.querySelector('.startGirl');
 const modal = document.getElementById('startModal');
@@ -189,7 +189,7 @@ function checkCollisions() {
 
 
 class Game {
-  
+
     gameOver() {
         this.endOfTheGame ("Game over");
     };
