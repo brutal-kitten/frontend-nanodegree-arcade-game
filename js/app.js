@@ -3,7 +3,7 @@ const Y_STEP = 83;
 const LEFT_BORDER = 0;
 const RIGHT_BORDER = 420;
 const TOP_BORDER = 40;
-const BOTTOM_BORDER = 410;
+const BOTTOM_BORDER = 299;
 const ENEMY_STEP = 101;
 const startBoy = document.querySelector('.startBoy');
 const startGirl = document.querySelector('.startGirl');
@@ -21,15 +21,15 @@ let bug = 'images/enemy-bug.png';
 // Superclass that represents every game object
 class GameObject {
     constructor (x, y, sprite, speed) {
-      this.x = x;
-      this.y = y;
-      this.speed = speed;
-      this.sprite = sprite;
+        this.x = x;
+        this.y = y;
+        this.speed = speed;
+        this.sprite = sprite;
     };
 
     //draw the object
     render() {
-      ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     };
 
     //check the collision with Player, returns boolean
@@ -88,9 +88,9 @@ class Player extends GameObject {
     moveUp() {
         this.y -= Y_STEP;
         if (this.y < TOP_BORDER) {
-            player.increaseScore();
+            this.increaseScore();
             console.log("you win in this round");
-            this.y = 410;
+            this.y = 299;
         };
     };
 
@@ -104,7 +104,7 @@ class Player extends GameObject {
     //reset player's position to the start position
     reset() {
         this.x = 200;
-        this.y = 410;
+        this.y = 299;
         console.log("reset")
     };
 
@@ -127,7 +127,7 @@ class Player extends GameObject {
         var number = this.numberOflives;
         game.udateNumbersOfLives(number);
         console.log(`number of lives is: ${this.numberOflives}`);
-        if (player.isDead()) {
+        if (this.isDead()) {
             game.gameOver();
         };
     };
@@ -234,11 +234,11 @@ class Game {
   // Place all enemy objects in an array called allEnemies
   // Place the player object in a variable called player
 let game = new Game ();
-let enemy1 = new Enemy(0, 140, bug, 1);
+let enemy1 = new Enemy(0, 133, bug, 1);
 let enemy2 = new Enemy(0, 50, bug, 2);
-let enemy3 = new Enemy(0, 230, bug, 3);
+let enemy3 = new Enemy(0, 216, bug, 3);
 let allEnemies = [enemy1, enemy2, enemy3];
-let player = new Player(200, 410, boy);
+let player = new Player(200, 299, boy);
 
 
 // This listens for key presses and sends the keys to your
