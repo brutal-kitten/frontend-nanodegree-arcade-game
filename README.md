@@ -2,7 +2,7 @@
 
 ## Description
 
-## How o run
+## How to run
 You can clone my repository and than open file index.html in your browser.
 
 ## How to play
